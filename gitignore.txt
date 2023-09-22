@@ -1,0 +1,3 @@
+#python idea
+ digital_department_bot1/.idea
+ digital_department_bot2/.idea
