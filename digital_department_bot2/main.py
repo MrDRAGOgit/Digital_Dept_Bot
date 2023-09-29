@@ -147,7 +147,13 @@ def bot_thread(BOT_TOKEN):
     bot.polling()
 
 
-t1 = threading.Thread(target=bot_thread, args=('6505669102:AAFhHUU6ZAlnLlFHNlGMABu3dKk-Z4AzdD8',))
-t2 = threading.Thread(target=bot_thread, args=('6603803686:AAEi2TGAD_9JFOf7WBH1EyJJKMLUSaxWxk0',))
-t1.start()
-t2.start()
+botKeys = ['6565282500:AAFyLrzYqccz6EC3kpVX4kOB4oUmFGN_gIY', '5819227130:AAFKaqatMV3WJuCUT3GKzGVGbCz-S4WZNz0',
+           '6173847622:AAF5rMm6pQHIA5hxzuVyGqSfSTrzT1xEThU', '6494006914:AAGjKZs3Lpcf8g2mqXxau2xMgNwzL6cj9UA']
+T = []
+for i in range(4):
+    T.append(threading.Thread(target=bot_thread, args=(botKeys[i],)))
+    T[i].start()
+#t1 = threading.Thread(target=bot_thread, args=('6505669102:AAFhHUU6ZAlnLlFHNlGMABu3dKk-Z4AzdD8',))
+#t2 = threading.Thread(target=bot_thread, args=('6603803686:AAEi2TGAD_9JFOf7WBH1EyJJKMLUSaxWxk0',))
+#t1.start()
+#t2.start()
