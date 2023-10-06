@@ -10,7 +10,7 @@ def logging(source):
     dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
     log.write(source + ' ' + dt_string + '\n')
     log.close()
-def bot_thread(BOT_TOKEN):
+def bot_thread(BOT_TOKEN, csvName):
     # Создаем экземпляр бота
     #BOT_TOKEN = '6505669102:AAFhHUU6ZAlnLlFHNlGMABu3dKk-Z4AzdD8'
     bot = telebot.TeleBot(BOT_TOKEN)
@@ -30,7 +30,7 @@ def bot_thread(BOT_TOKEN):
 
     import pandas as pd
 
-    teachers_path = 'teachers.csv'
+    teachers_path = csvName
     teachers = pd.read_csv(teachers_path)
 
     # Обработчик команды /start
@@ -163,7 +163,8 @@ def bot_thread(BOT_TOKEN):
 
 botKeys = ['6565282500:AAFyLrzYqccz6EC3kpVX4kOB4oUmFGN_gIY', '5819227130:AAFKaqatMV3WJuCUT3GKzGVGbCz-S4WZNz0',
            '6173847622:AAF5rMm6pQHIA5hxzuVyGqSfSTrzT1xEThU', '6494006914:AAGjKZs3Lpcf8g2mqXxau2xMgNwzL6cj9UA']
+csvArr = ['teachers0.csv', 'teachers1.csv', 'teachers2.csv', 'teachers3.csv']
 T = []
 for i in range(4):
-    T.append(threading.Thread(target=bot_thread, args=(botKeys[i],)))
+    T.append(threading.Thread(target=bot_thread, args=(botKeys[i], csvArr[i],)))
     T[i].start()
