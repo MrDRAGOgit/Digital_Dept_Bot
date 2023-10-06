@@ -1,8 +1,15 @@
+import datetime
 import telebot
 from telebot import types
 import threading
 
 
+def logging(source):
+    log = open('log.txt', 'a')
+    now = datetime.datetime.now()
+    dt_string = now.strftime("%d/%m/%Y %H:%M:%S")
+    log.write(source + ' ' + dt_string + '\n')
+    log.close()
 def bot_thread(BOT_TOKEN):
     # Создаем экземпляр бота
     #BOT_TOKEN = '6505669102:AAFhHUU6ZAlnLlFHNlGMABu3dKk-Z4AzdD8'
@@ -57,6 +64,7 @@ def bot_thread(BOT_TOKEN):
         back_button = types.KeyboardButton('Вернуться в меню')
         keyboard.add(back_button)
         bot.send_message(message.chat.id, 'Выберите подраздел FAQ:', reply_markup=keyboard)
+        logging('faq')
 
 
     @bot.message_handler(func=lambda message: message.text in subsections)
@@ -73,12 +81,14 @@ def bot_thread(BOT_TOKEN):
             bot.send_message(message.chat.id, read_file('оценки.txt'))
         elif message.text == 'Итоговая работа':
             bot.send_message(message.chat.id, read_file('итоговая_работа.txt'))
+        logging('faqSub')
 
     # Обработчик кнопки "Задать вопрос дежурному"
     @bot.message_handler(func=lambda message: message.text == 'Задать вопрос дежурному')
     def duty_officer_question(message):
         # Отправляем ссылку в личку
         bot.send_message(message.chat.id, duty_officer_text)
+        logging('dutyOfficer')
 
 
     # Обработчик кнопки "Задать вопрос по предмету"
@@ -97,6 +107,7 @@ def bot_thread(BOT_TOKEN):
         keyboard.add(back_button)
         # Отправляем сообщение с выбором предмета
         bot.send_message(message.chat.id, 'Выберите предмет:', reply_markup=keyboard)
+        logging('subjects')
 
 
     # Обработчик выбора предмета
@@ -120,6 +131,7 @@ def bot_thread(BOT_TOKEN):
 
         # Отправляем сообщение с выбором преподавателя
         bot.send_message(message.chat.id, 'Выберите преподавателя:', reply_markup=keyboard)
+        logging('prof')
 
 
     # Обработчик выбора преподавателя
@@ -127,6 +139,7 @@ def bot_thread(BOT_TOKEN):
     def send_link(message):
         # Отправляем ссылку в личку
         bot.send_message(message.chat.id, teachers.loc[teachers['ФИО преподавателя'] == message.text, 'ссылка'].values[0])
+        logging('profSub')
 
 
     # Обработчик кнопки "Вернуться в меню"
@@ -141,6 +154,7 @@ def bot_thread(BOT_TOKEN):
 
         # Отправляем сообщение с клавиатурой
         bot.send_message(message.chat.id, 'Вернулись в меню!', reply_markup=keyboard)
+        logging('menu')
 
 
     # Запускаем бота
@@ -153,7 +167,3 @@ T = []
 for i in range(4):
     T.append(threading.Thread(target=bot_thread, args=(botKeys[i],)))
     T[i].start()
-#t1 = threading.Thread(target=bot_thread, args=('6505669102:AAFhHUU6ZAlnLlFHNlGMABu3dKk-Z4AzdD8',))
-#t2 = threading.Thread(target=bot_thread, args=('6603803686:AAEi2TGAD_9JFOf7WBH1EyJJKMLUSaxWxk0',))
-#t1.start()
-#t2.start()
