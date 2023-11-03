@@ -2,7 +2,7 @@ import telebot
 from telebot import types
 
 # Создаем экземпляр бота
-BOT_TOKEN = '5819227130:AAFKaqatMV3WJuCUT3GKzGVGbCz-S4WZNz0'
+BOT_TOKEN = '6494006914:AAGjKZs3Lpcf8g2mqXxau2xMgNwzL6cj9UA'
 bot = telebot.TeleBot(BOT_TOKEN)
 
 # Читаем FAQ из текстового файла
@@ -20,7 +20,7 @@ duty_officer_text = read_file(duty_officer_path)
 
 import pandas as pd
 
-teachers_path = 'teachers1.csv'
+teachers_path = 'teachers3.csv'
 teachers = pd.read_csv(teachers_path)
 
 # Обработчик команды /start
