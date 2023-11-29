@@ -1,9 +1,12 @@
 import telebot
 from telebot import types
+import time
+import pandas as pd
 
 # Создаем экземпляр бота
 BOT_TOKEN = '5819227130:AAFKaqatMV3WJuCUT3GKzGVGbCz-S4WZNz0'
 bot = telebot.TeleBot(BOT_TOKEN)
+
 
 # Читаем FAQ из текстового файла
 def read_file(file_path):
@@ -15,13 +18,13 @@ def read_file(file_path):
 # faq_file_path = 'faq.txt'
 # faq_text = read_file(faq_file_path)
 
+
 duty_officer_path = 'duty_officer.txt'
 duty_officer_text = read_file(duty_officer_path)
 
-import pandas as pd
-
 teachers_path = 'teachers1.csv'
 teachers = pd.read_csv(teachers_path)
+
 
 # Обработчик команды /start
 @bot.message_handler(commands=['start'])
@@ -39,10 +42,11 @@ def start(message):
 
 subsections = ['Сроки обучения', 'Практика', 'Расписание', 'Ассесмент', 'Оценки', 'Итоговая работа']
 
+
 # Обработчик кнопки "FAQ"
 @bot.message_handler(func=lambda message: message.text == 'FAQ')
 def faq(message):
-    #Cоздаём клавиатуру
+    # Cоздаём клавиатуру
     keyboard = types.ReplyKeyboardMarkup(row_width=3)
     buttons = []
     for i in subsections:
@@ -70,6 +74,7 @@ def sub_faq(message):
         bot.send_message(message.chat.id, read_file('оценки.txt'))
     elif message.text == 'Итоговая работа':
         bot.send_message(message.chat.id, read_file('итоговая_работа.txt'))
+
 
 # Обработчик кнопки "Задать вопрос дежурному"
 @bot.message_handler(func=lambda message: message.text == 'Задать вопрос дежурному')
@@ -141,4 +146,9 @@ def return_to_menu(message):
 
 
 # Запускаем бота
-bot.polling()
+# bot.polling()
+while True:
+    try:
+        bot.polling(none_stop=True)
+    except:
+        time.sleep(0.3)
